@@ -14,10 +14,10 @@ public class Main{
 		int arrayLenght = diferentMaterialsToBuy(input);
 		String [] names2 = thingsToBuy(arrayLenght, input);
 		
-		//thingsToBuy(arrayLenght, input);
-		costAtHomeCenter(arrayLenght, names2, input);
-		costAtFerreteriaDelCentro(arrayLenght, names2,input);
-		costAtFerreteriaDelBarrio(arrayLenght, names2,input);
+		int [] materialAmount = amountToBuy(input, names2, arrayLenght);
+		costAtHomeCenter(arrayLenght, names2, input, materialAmount);
+		costAtFerreteriaDelCentro(arrayLenght, names2,input, materialAmount);
+		costAtFerreteriaDelBarrio(arrayLenght, names2,input, materialAmount);
 		
 	}
 	
@@ -29,7 +29,7 @@ public class Main{
 	}
 	
 	
-	public static String[] thingsToBuy(int diferentMaterials, Scanner input){
+	public static String[] thingsToBuy(int diferentMaterials, Scanner input){                    
 		
 		String [] materials = new String [diferentMaterials];
 		int [] amountMaterials = new int [diferentMaterials];
@@ -40,50 +40,66 @@ public class Main{
 
 		 System.out.println("Por favor ingrese el nombre del " + (i+1)+" producto.");
 		 materials[i]=input.nextLine();
-		 System.out.println("¿Cuánta cantidad se necesita? (Ingrese solo el valor númerico).");
-		 amountMaterials[i]=input.nextInt();
-		 System.out.println("Si el uso del material es en: obra negra pulse 1; si es para pintura pulse 2; o si es para obra blanca ingrese 3.");
-         typeOfUse[i]=input.nextInt();
-         input.nextLine();
          	 
 		}
 		return materials;
 	}
-	
-	public static int costAtHomeCenter(int diferentMaterials, String [] materials, Scanner input){              //This will ask for the cost of buying the stuff at Home Center.
+	public static int [] amountToBuy(Scanner input, String [] names, int diferentMaterials){
+		int [] amountToBuy = new int[diferentMaterials];
 		
-	  int totalCostAtHomeCenter = 0;	
+		for(int i= 0 ; i<diferentMaterials ; i++){
+		    System.out.println("¿Cuántas unidades de " + names[i] + " necesita? (Ingrese solo el valor númerico).");
+		    amountToBuy [i] = input.nextInt();
+		}
+		return amountToBuy;
+	}
+	
+	public static void costAtHomeCenter(int diferentMaterials, String [] materials, Scanner input, int [] amountToBuy){              //This will ask for the cost of buying the stuff at Home Center.
+		
+	  int totalCostAtHomeCenter = 0;
+      int [] unitaryCostAtHomeCenter = new int [diferentMaterials];	  
+	  
+	  System.out.println();
+	  
 	  for(int i=0 ; i< diferentMaterials ; i++){
+
 	    System.out.println("Por favor ingrese el costo unitario de: " + materials[i] + " en Home Center.");
-		totalCostAtHomeCenter += input.nextInt();
+		unitaryCostAtHomeCenter [i] = input.nextInt();	
+		
 		input.nextLine();
 	  }
-	  totalCostAtHomeCenter += Operations.totalOfBuyingAtHomeCenter(totalCostAtHomeCenter);
-	  return totalCostAtHomeCenter;
+	  System.out.println();
+	  System.out.println("EL total si se compra en Home Center es de: " + Operations.totalBuy(unitaryCostAtHomeCenter, amountToBuy));
+	  System.out.println();
+
     }
 
 
-    public static int costAtFerreteriaDelCentro(int diferentMaterials, String [] materials, Scanner input){      //This will ask for the cost of buying the stuff at Ferretería del centro.
+    public static void costAtFerreteriaDelCentro(int diferentMaterials, String [] materials, Scanner input, int [] amountToBuy){      //This will ask for the cost of buying the stuff at Ferretería del centro.
 		
-	  int totalCostAtFerreteriaDelCentro = 0;	
+	  int totalCostAtFerreteriaDelCentro = 0;
+      int [] unitaryCostAtFerreteriaDelCentro = new int [diferentMaterials];	  
 	  for(int i=0 ; i< diferentMaterials ; i++){
 	    System.out.println("Por favor ingrese el costo unitario de: " + materials[i] + " en la ferretería del centro.");
-		totalCostAtFerreteriaDelCentro += input.nextInt();
+		unitaryCostAtFerreteriaDelCentro [i] = input.nextInt();
 		input.nextLine();
 	  }
-	  totalCostAtFerreteriaDelCentro += Operations.totalOfBuyingAtFerreteriaDelCentro(totalCostAtFerreteriaDelCentro);
-	  return totalCostAtFerreteriaDelCentro;
+	  System.out.println();
+	  System.out.println("EL total si se compra en Ferretería del centro es de: " + Operations.totalBuy(unitaryCostAtFerreteriaDelCentro, amountToBuy));
+	  System.out.println();
     }
 
 
-    public static int costAtFerreteriaDelBarrio(int diferentMaterials, String [] materials, Scanner input){    //This will ask for the cost of buying the stuff at Ferretería del barrio.
+    public static void costAtFerreteriaDelBarrio(int diferentMaterials, String [] materials, Scanner input, int [] amountToBuy){    //This will ask for the cost of buying the stuff at Ferretería del barrio.
 		
 	  int totalCostAtFerreteriaDelBarrio = 0;	
+	  int [] unitaryCostAtFerreteriaDelBarrio = new int [diferentMaterials];
 	  for(int i=0 ; i< diferentMaterials ; i++){
 	    System.out.println("Por favor ingrese el costo unitario de: " + materials[i] + " en la ferretería del barrio.");
-		totalCostAtFerreteriaDelBarrio += input.nextInt();
+		unitaryCostAtFerreteriaDelBarrio [i] = input.nextInt();
 	  }
-	  totalCostAtFerreteriaDelBarrio += Operations.totalOfBuyingAtFerreteriaDelBarrio(totalCostAtFerreteriaDelBarrio);
-	  return totalCostAtFerreteriaDelBarrio;
+	  System.out.println();
+	  System.out.println("EL total si se compra en Ferretería del barrio es de: " + Operations.totalBuy(unitaryCostAtFerreteriaDelBarrio, amountToBuy));
+	  System.out.println();
     }			
 }

@@ -2,64 +2,159 @@ package model;
 
 public class Operations{
 	
-   private final static int painting=980000, roughConstruction=1300000, softConstruction=2600000; //constant cost for each type of work. 
+   private final static int PAINTING=980000, ROUGHCONSTRUCTION=1300000, SOFTCONSTRUCTION=2600000; //constant cost for each type of work. 
    
+/**
+*This method calculates the total to pay for: materials, delivery, and the work (rough work, soft work, and painting). <br>
+*<b>pre: </b> the user needs to know the ubication of the property, the price and amount of the materials.<br>
+*<b>post: </b> this method will sum all the costs to calculate the total cost.<br>
+*@param ubication ubication != null ^^ (ubication>0 ^^ ubication<4)
+*@param costMaterials, has to be filled with int values biggers than zero. []costMaterials != null ^^ []costMaterials>0
+*@param amountToBuy, has to be filled with int values biggers than zero. []amountToBuy != null ^^ []amountToBuy>0
+*@return int, this method returns the total to pay for all the materials, delivery, and the work (rough work, soft work, and painting).
+*/
 
-    public static int totalBuy(int [] costMaterials, int [] amountToBuy){
+    public static int totalBuy(int [] costMaterials, int [] amountToBuy, int ubication){          //This method calculate the total cost.
       
 	  int costMaterialsOperations = 0;
 	  
 	  for(int i= 0 ; i<amountToBuy.length ;i++){
 	    costMaterialsOperations =  costMaterialsOperations + ((costMaterials[i]) * (amountToBuy[i]));
 	  }
+
+	  switch(ubication){
+		case 1: if(costMaterialsOperations<80000){
+			            ubication = 120000;
+		           }
+				else if(costMaterialsOperations>=80000 && costMaterialsOperations<300000){
+					ubication = 28000;
+				}
+				else{
+					ubication = 0;
+				}
+				break;
+
+		case 2: if(costMaterialsOperations<80000){
+			            ubication = 50000;
+		           }
+				else if(costMaterialsOperations>=80000 && costMaterialsOperations<300000){
+					ubication = 0;
+				}
+				else{
+					ubication = 0;
+				}
+				break;
+
+		case 3: if(costMaterialsOperations<80000){
+			            ubication = 120000;
+		           }
+				else if(costMaterialsOperations>=80000 && costMaterialsOperations<300000){
+					ubication = 55000;
+				}
+				else{
+					ubication = 0;
+				}
+				break;		
+	  }
 	  
-	  int totalCost = costMaterialsOperations + painting + roughConstruction + softConstruction;
+	int totalCost = costMaterialsOperations + PAINTING + ROUGHCONSTRUCTION + SOFTCONSTRUCTION + ubication;
 	  return totalCost;
     }
-	
-    public static void showBestShop(int [] firstValue, int [] secondValue, int [] thirdValue, String [] material, int diferentMaterials){
 
+/**
+*This method will evalue wich shop has the best prices for each material. <br>
+*<b>pre: </b> the user needs to have filled the arrays before, know his ubication, and how many materials are in the list .<br>
+*<b>post: </b> this method will decide which shop has the best prices for each material.<br>
+*@param firstValue, has to be declarated, inicializated, and filled with int values biggers than zero. []firstValue != null ^^ []firstValue>0
+*@param secondValue, has to be declarated, inicializated, and filled with int values biggers than zero. []secondValue != null ^^ []secondValue>0
+*@param thirdValue, has to be declarated, inicializated, and filled with int values biggers than zero. []thirdValue != null ^^ []thirdValue>0
+*@param material, has to be filled with the names. []material !="" ^^ []material !=null
+*@param diferentMaterials has to be declarated and inicializated before. diferentMaterials>0
+*@param ubication ubication != null ^^ (ubication>0 ^^ ubication<8)
+*@param amountToBuy, has to be filled with int values biggers than zero. []amountToBuy != null ^^ []amountToBuy>0
+*@return int[], this method returns an array with ints: first ones corresponds.
+*/
+	
+    public static int [] showBestShop(int [] firstValue, int [] secondValue, int [] thirdValue, String [] material, int diferentMaterials, int ubication, int []amountToBuy){   //This method will evalue wich shop has the best prices for each material.
+
+        int [] totalAndBestShop = new int[diferentMaterials+1];
         int totalForBestOptions =0;
 
 		for(int i=0; i<diferentMaterials ; i++){
 		if(firstValue[i]< secondValue[i] && firstValue[i]< thirdValue[i]){
-			System.out.println("El mejor lugar para comprar " + material[i]+ " es Home Center donde cuesta $" + firstValue[i]);
-			totalForBestOptions += firstValue[i];
+			totalForBestOptions += firstValue[i] * amountToBuy[i];
+			totalAndBestShop[i] = 1;
 		}
-		if(secondValue[i]<firstValue[i] && secondValue[i]<thirdValue[i]){
+		else if(secondValue[i]<firstValue[i] && secondValue[i]<thirdValue[i]){
 
-			System.out.println("EL mejor lugar para comprar " + material[i] + " es Ferretería del centro donde cuesta $" + secondValue[i]);
-			totalForBestOptions += secondValue[i];
+			totalForBestOptions += secondValue[i] * amountToBuy[i];
+			totalAndBestShop[i] = 2;
 		}
-		if(thirdValue[i]<firstValue[i] && thirdValue[i]<secondValue[i]){
-			System.out.println("EL mejor lugar para comprar " + material[i] + " es Ferretería del barrio donde cuesta $" + thirdValue[i]);
-			totalForBestOptions += thirdValue [i];
-		}
-	  }
-	  System.out.println("Si se compran todos los materiales en la tienda con los precios más bajos" +
-	  " el total (incluida mano de obra) es de: $" + (totalForBestOptions+ painting + roughConstruction + softConstruction));
-	}
-	
-/*	public static void materialsUse(int diferentMaterials){
-           
-		int [] typeOfUse = new int[diferentMaterials]; 
-        int [] materialsForRoughConstruction = new int[diferentMaterials];
-        int [] materialsForSoftConstruction = new int[diferentMaterials];
-        int [] materialsForPainting = new int[diferentMaterials];		
+		else if(thirdValue[i]<firstValue[i] && thirdValue[i]<secondValue[i]){
+			totalForBestOptions += thirdValue [i] * amountToBuy[i];
+			totalAndBestShop[i] = 3;
+		}	
+		else if(firstValue[i]== secondValue[i] && firstValue[i] == thirdValue[i]){
 
-		for(int i= 0 ; i<diferentMaterials ; i++){
-		 System.out.println("Por favor específique para qué se necesita " + materials[i] + ", si es para obra negra"
-		 + "dígite 1; si es para obra blanca dígite 2; si es para pintar dígite 3." );
-		 typeOfUse[i] = input.nextInt();         	 
+			totalForBestOptions += firstValue[i] * amountToBuy[i];
+			totalAndBestShop[i] = 4;
+		}
+		else if(firstValue[i] != secondValue[i] && firstValue[i] == thirdValue[i]){
+
+			totalForBestOptions += firstValue[i] * amountToBuy[i];
+			totalAndBestShop[i] = 5;
+
+	    }
+		else if(firstValue[i]== secondValue[i] && firstValue[i] != thirdValue[i]){
+
+			totalForBestOptions += firstValue[i] * amountToBuy[i];
+			totalAndBestShop[i] = 6;
+		}
+		else if(thirdValue[i]== secondValue[i] && firstValue[i] != secondValue[i]){
+
+		totalForBestOptions += thirdValue[i] * amountToBuy[i];
+		totalAndBestShop[i] = 7;
+		}
 		}
 		
-		for(int i=0 ; i<diferentMaterials ; i++){
-			switch(typeOfUse[i]){
-				case 1: 
-			}
-		}
-		}
-	} */
-}
- 
+		switch(ubication){
+		case 1: if(totalForBestOptions<80000){
+			            ubication = 120000;
+		           }
+				else if(totalForBestOptions>=80000 && totalForBestOptions<300000){
+					ubication = 28000;
+				}
+				else{
+					ubication = 0;
+				}
+				break;
 
+		case 2: if(totalForBestOptions<80000){
+			            ubication = 50000;
+		           }
+				else if(totalForBestOptions>=80000 && totalForBestOptions<300000){
+					ubication = 0;
+				}
+				else{
+					ubication = 0;
+				}
+				break;
+
+		case 3: if(totalForBestOptions<80000){
+			            ubication = 120000;
+		           }
+				else if(totalForBestOptions>=80000 && totalForBestOptions<300000){
+					ubication = 55000;
+				}
+				else{
+					ubication = 0;
+				}
+				break;		
+	  }
+	  
+	  totalAndBestShop[diferentMaterials] = totalForBestOptions+ubication;	
+	  
+	  return totalAndBestShop;
+	}
+	 
+}

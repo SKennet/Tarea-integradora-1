@@ -2,7 +2,7 @@ package model;
 
 public class Operations{
 	
-   private final static int PAINTING=980000, ROUGHCONSTRUCTION=1300000, SOFTCONSTRUCTION=2600000; //constant cost for each type of work. 
+   private final static int PAINTING=980000, ROUGH_CONSTRUCTION=1300000, SOFT_CONSTRUCTION=2600000; //Constant cost for each type of work. 
    
 /**
 *This method calculates the total to pay for: materials, delivery, and the work (rough work, soft work, and painting). <br>
@@ -57,7 +57,7 @@ public class Operations{
 				break;		
 	  }
 	  
-	int totalCost = costMaterialsOperations + PAINTING + ROUGHCONSTRUCTION + SOFTCONSTRUCTION + ubication;
+	int totalCost = costMaterialsOperations + PAINTING + ROUGH_CONSTRUCTION + SOFT_CONSTRUCTION + ubication;
 	  return totalCost;
     }
 

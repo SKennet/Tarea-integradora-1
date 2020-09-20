@@ -14,18 +14,18 @@ public class Main{
         
 		Scanner input = new Scanner(System.in);  //Here´s the scanner.
 		
-		int arrayLenght = diferentMaterialsToBuy(input);
-		int ubicationValue = ubication(input);
+		int arrayLenght = diferentMaterialsToBuy(input); //This saves how many materials are in the list.
+		int ubicationValue = ubication(input); //This saves where it's ubicated the property.
 		
-		String [] names2 = thingsToBuy(arrayLenght, input);
+		String [] names2 = thingsToBuy(arrayLenght, input); //This saves the array with the names.
 		
-		int [] materialAmount = amountToBuy(input, names2, arrayLenght);                                          //This line: save the amount per each material.
+		int [] materialAmount = amountToBuy(input, names2, arrayLenght);  //This saves how many units of each material are requested.                                        //This line: save the amount per each material.
 
-        int[] costAtHomeCenterArray = totalCost(arrayLenght, names2, input, materialAmount, "Home Center", ubicationValue);
-        int [] costAtFerreteriaDelCentro = totalCost(arrayLenght, names2, input, materialAmount, "Ferretería del centro.", ubicationValue);
-        int [] costAtFerreteriaDelBarrio = totalCost(arrayLenght, names2, input, materialAmount, "Ferretería del barrio.", ubicationValue);
+        int[] costAtHomeCenterArray = totalCost(arrayLenght, names2, input, materialAmount, "Home Center", ubicationValue); //This saves the total cost if the user buys at Home Center.
+        int [] costAtFerreteriaDelCentro = totalCost(arrayLenght, names2, input, materialAmount, "Ferretería del centro.", ubicationValue); //This saves the total cost if the user buys at Ferretería del centro.
+        int [] costAtFerreteriaDelBarrio = totalCost(arrayLenght, names2, input, materialAmount, "Ferretería del barrio.", ubicationValue); //This saves the total cost if the user buys at Ferretería del Barrio.
 
-		int [] totalAndBestShop = Operations.showBestShop(costAtHomeCenterArray, costAtFerreteriaDelCentro, costAtFerreteriaDelBarrio, 
+		int [] totalAndBestShop = Operations.showBestShop(costAtHomeCenterArray, costAtFerreteriaDelCentro, costAtFerreteriaDelBarrio, //This saves the array with the use and total of the materials.
 		names2, arrayLenght, ubicationValue, materialAmount);
 		showBestShopForMaterials(totalAndBestShop, names2, costAtHomeCenterArray, costAtFerreteriaDelCentro, costAtFerreteriaDelBarrio,arrayLenght);
 
